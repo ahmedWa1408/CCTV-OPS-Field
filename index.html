@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحكم - شاشة الافتتاحية</title>
-    <!-- ربط ملف التصميم الذي سأرسله لك في الخطوة القادمة -->
+    <title>تحكم - نظام الحركة الميدانية</title>
+    <!-- ربط ملف التصميم المطور -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,37 +12,55 @@
     <!-- زر تبديل الوضع الداكن والفاتح -->
     <button class="theme-toggle" id="themeBtn">الوضع الفاتح</button>
 
+    <!-- طبقة تأثير الوميض الفخم قبل الانتقال -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
     <div class="splash-container">
-        <!-- لوحة الترحيب العلوية -->
+        <!-- لوحة الترحيب العلوية المتطابقة مع الكلام بالصورة تماماً -->
         <div class="welcome-panel">
             <h1 class="welcome-title">مرحباً بك</h1>
-            <p class="welcome-subtitle">في نظام الحركة الميدانية لقسم التشغيل CCTV</p>
-            <p class="welcome-desc">نظام متكامل لإدارة ومتابعة خطط الحركة الميدانية بدقة وسهولة واحترافية.</p>
+            <p class="welcome-subtitle">في نظام الحركة الميدانيه لقسم التشغيل CCTV</p>
+            <p class="welcome-desc">نظام متكامل لإدارة ومتابعة خطط الحركة الميدانية<br>بدقة وسهولة واحترافية</p>
         </div>
 
-        <!-- منطقة الشعار المستقبلي والهولوغرام -->
+        <!-- منطقة المنصة والهولوغرام والشعار الدقيق والنبضات الضوئية -->
         <div class="hologram-display">
+            <!-- اللوحة الزجاجية الخلفية المضيئة -->
             <div class="logo-glass-panel"></div>
             
+            <!-- هالة الإضاءة الدائرية حول الشعار -->
+            <div class="logo-glow-ring"></div>
+            
+            <!-- الشعار الرقمي المتطابق مع الصورة -->
             <div class="logo-wrapper">
-                <div class="logo-icon">
-                    <div class="pixel p1"></div>
-                    <div class="pixel p2"></div>
-                    <div class="pixel p3"></div>
-                    <div class="pixel p4"></div>
+                <!-- الأشكال المربعة والشبكة المستوحاة من الشعار بدقة -->
+                <div class="logo-icon-grid">
+                    <div class="pixel px-purple-1"></div>
+                    <div class="pixel px-purple-2"></div>
+                    <div class="pixel px-purple-3"></div>
+                    <div class="pixel px-purple-4"></div>
+                    <div class="pixel px-cyan-1"></div>
+                    <div class="pixel px-cyan-2"></div>
+                    <div class="pixel px-cyan-3"></div>
+                    <div class="pixel px-cyan-4"></div>
+                    <div class="connection-line"></div>
                 </div>
+                <!-- الخطوط والنصوص بدقة تامة -->
                 <div class="logo-text-main">تحكم</div>
                 <div class="logo-text-sub">TAHAKOM</div>
             </div>
 
+            <!-- شعاع الليزر الصاعد من المنصة -->
             <div class="hologram-beam"></div>
 
+            <!-- المنصة الدائرية المستقبلية المضيئة في الأسفل (Podium) -->
             <div class="podium-base">
-                <div class="podium-ring"></div>
+                <div class="podium-inner-ring"></div>
+                <div class="podium-core-glow"></div>
             </div>
         </div>
 
-        <!-- شريط التحميل السفلي -->
+        <!-- منطقة شريط التحميل والنسبة المئوية -->
         <div class="loading-section">
             <div class="loading-text" id="statusText">جاري التحميل..</div>
             <div class="progress-bar-container">
@@ -52,7 +70,7 @@
         </div>
     </div>
 
-    <!-- ربط ملف الحركة والتشغيل البرمجي -->
+    <!-- ربط ملف الحركة والتشغيل المطور -->
     <script src="script.js"></script>
 </body>
 </html>
