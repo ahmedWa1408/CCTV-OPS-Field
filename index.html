@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CCTV Field System</title>
+  <title>CCTV System</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -16,76 +16,81 @@
     }
 
     body {
-      background: #0b0f1a;
+      background: #070A12;
       color: white;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      overflow: hidden;
     }
 
-    /* خلفية نيون */
-    body::before {
-      content: "";
-      position: absolute;
+    /* ===== شاشة التحميل ===== */
+    #splash {
+      position: fixed;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 20% 20%, #6c5ce7 0%, transparent 40%),
-                  radial-gradient(circle at 80% 80%, #00d2ff 0%, transparent 40%);
-      opacity: 0.4;
-      z-index: 0;
+      background: radial-gradient(circle at center, #1a1f3a, #070A12);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
     }
 
-    .container {
-      position: relative;
-      z-index: 2;
-      width: 90%;
-      max-width: 420px;
+    .logo {
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #c084fc;
+      text-shadow: 0 0 20px #a855f7;
+    }
+
+    .loading-box {
+      width: 250px;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .loading-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg,#a855f7,#22d3ee);
+      animation: load 3s forwards;
+    }
+
+    @keyframes load {
+      to { width: 100%; }
+    }
+
+    /* ===== الصفحة الرئيسية ===== */
+    #app {
+      display: none;
+      height: 100vh;
+      padding: 20px;
+      background: radial-gradient(circle at top, #11162a, #070A12);
+    }
+
+    .card {
+      margin-top: 60px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
       text-align: center;
     }
 
-    .header {
-      margin-bottom: 25px;
-    }
-
-    .header h1 {
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .header span {
-      color: #00d2ff;
-    }
-
-    /* كرت زجاجي */
-    .card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    }
-
-    .title {
-      font-size: 20px;
+    h1 {
       margin-bottom: 10px;
-      font-weight: 700;
+      font-size: 22px;
     }
 
-    .subtitle {
-      font-size: 12px;
-      opacity: 0.7;
-      margin-bottom: 20px;
-    }
-
-    .big-number {
-      font-size: 48px;
-      font-weight: 700;
-      background: linear-gradient(45deg, #6c5ce7, #00d2ff);
+    .number {
+      font-size: 55px;
+      margin: 20px 0;
+      background: linear-gradient(45deg,#a855f7,#22d3ee);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin: 15px 0;
     }
 
     input {
@@ -93,75 +98,76 @@
       padding: 12px;
       border-radius: 12px;
       border: none;
-      outline: none;
-      margin-top: 10px;
       text-align: center;
-      font-size: 16px;
+      margin-top: 10px;
+      outline: none;
     }
 
-    .btn {
+    button {
       width: 100%;
       padding: 12px;
       margin-top: 15px;
-      border-radius: 12px;
       border: none;
+      border-radius: 12px;
       cursor: pointer;
-      font-weight: 700;
+      background: linear-gradient(90deg,#a855f7,#22d3ee);
       color: white;
-      background: linear-gradient(45deg, #6c5ce7, #00d2ff);
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      transform: scale(1.03);
+      font-weight: bold;
     }
 
     .back {
-      margin-top: 10px;
       background: transparent;
       border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    #planPage {
-      display: none;
     }
   </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- شاشة التحميل -->
+<div id="splash">
+  <div class="logo">TAHAKOM</div>
+  <div>جاري التحميل...</div>
 
-  <!-- الصفحة الأولى -->
-  <div id="homePage">
-    <div class="header">
-      <h1>نظام الحركة الميدانية <span>CCTV</span></h1>
-    </div>
+  <div class="loading-box">
+    <div class="loading-bar"></div>
+  </div>
+</div>
 
+<!-- التطبيق -->
+<div id="app">
+
+  <!-- الصفحة الرئيسية -->
+  <div id="home">
     <div class="card">
-      <div class="title">ادخل رقم الخطة</div>
-      <div class="subtitle">يرجى إدخال رقم الخطة للمتابعة</div>
+      <h1>مرحباً بك</h1>
+      <p>في نظام الحركة الميدانية CCTV</p>
 
-      <div class="big-number">01</div>
+      <div class="number">01</div>
 
-      <input type="number" id="planNumber" placeholder="رقم الخطة">
+      <input type="number" id="planNumber" placeholder="ادخل رقم الخطة">
 
-      <button class="btn" onclick="openPlan()">متابعة</button>
+      <button onclick="openPlan()">متابعة</button>
     </div>
   </div>
 
-  <!-- الصفحة الثانية -->
-  <div id="planPage">
+  <!-- صفحة الخطة -->
+  <div id="planPage" style="display:none;">
     <div class="card">
-      <div class="title" id="planTitle">الخطة</div>
-
-      <button class="btn back" onclick="backHome()">رجوع</button>
+      <h1 id="title">الخطة</h1>
+      <button class="back" onclick="backHome()">رجوع</button>
     </div>
   </div>
 
 </div>
 
 <script>
+  // تشغيل شاشة التحميل ثم فتح التطبيق
+  setTimeout(() => {
+    document.getElementById("splash").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  }, 3000);
+
   const plans = {
     1: { name: "مسار 1" },
     2: { name: "مسار 2" }
@@ -171,9 +177,10 @@
     const val = document.getElementById("planNumber").value;
 
     if (plans[val]) {
-      document.getElementById("homePage").style.display = "none";
+      document.getElementById("home").style.display = "none";
       document.getElementById("planPage").style.display = "block";
-      document.getElementById("planTitle").innerText =
+
+      document.getElementById("title").innerText =
         "الخطة رقم " + val + " - " + plans[val].name;
     } else {
       alert("رقم الخطة غير موجود");
@@ -181,7 +188,7 @@
   }
 
   function backHome() {
-    document.getElementById("homePage").style.display = "block";
+    document.getElementById("home").style.display = "block";
     document.getElementById("planPage").style.display = "none";
   }
 </script>
