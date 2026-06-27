@@ -1,22 +1,24 @@
-/* تعريف الألوان والمتغيرات للوضعين الداكن والفاتح */
+/* الألوان والمؤثرات الضوئية للوضعين */
 :root {
-    --bg-color: #05050c;
-    --card-bg: rgba(10, 10, 25, 0.7);
+    --bg-color: #030308;
+    --card-bg: rgba(10, 10, 22, 0.65);
     --text-color: #ffffff;
-    --primary-neon: #a855f7;
-    --secondary-neon: #06b6d4;
-    --border-color: rgba(6, 182, 212, 0.2);
-    --podium-glow: rgba(168, 85, 247, 0.4);
+    --primary-neon: #9d4edd;
+    --secondary-neon: #00f5d4;
+    --border-color: rgba(0, 245, 212, 0.15);
+    --podium-glow: rgba(157, 78, 221, 0.45);
+    --panel-border: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="light"] {
-    --bg-color: #f3f4f6;
+    --bg-color: #f0f2f5;
     --card-bg: rgba(255, 255, 255, 0.85);
-    --text-color: #1f2937;
-    --primary-neon: #7c3aed;
-    --secondary-neon: #0891b2;
-    --border-color: rgba(8, 145, 178, 0.3);
-    --podium-glow: rgba(124, 58, 237, 0.2);
+    --text-color: #1a1a24;
+    --primary-neon: #7209b7;
+    --secondary-neon: #00bbf9;
+    --border-color: rgba(0, 187, 249, 0.3);
+    --podium-glow: rgba(114, 9, 183, 0.25);
+    --panel-border: rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -39,7 +41,7 @@ body {
     position: relative;
 }
 
-/* زر تحويل المظهر (داكن / فاتح) */
+/* زر تبديل الوضع */
 .theme-toggle {
     position: absolute;
     top: 20px;
@@ -63,44 +65,48 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
     padding: 20px;
     animation: fadeIn 1.2s ease-out forwards;
+    z-index: 5;
 }
 
-/* لوحة الترحيب العلوية */
+/* لوحة الترحيب العلوية (نفس كلام الصورة تماماً) */
 .welcome-panel {
     width: 100%;
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: 1px solid var(--panel-border);
+    border-radius: 20px;
     padding: 25px;
     text-align: center;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    position: relative;
 }
 
 .welcome-title {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+    font-size: 2.1rem;
     font-weight: 700;
+    margin-bottom: 8px;
     letter-spacing: 1px;
 }
 
 .welcome-subtitle {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--secondary-neon);
-    opacity: 0.9;
-    margin-bottom: 15px;
+    opacity: 0.95;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
 }
 
 .welcome-desc {
-    font-size: 0.85rem;
-    opacity: 0.7;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    opacity: 0.75;
+    line-height: 1.7;
 }
 
-/* منطقة الهولوغرام والشعار والمجسم السفلي */
+/* منطقة العرض والهولوغرام */
 .hologram-display {
     width: 100%;
     height: 380px;
@@ -109,158 +115,218 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    perspective: 1000px;
 }
 
-/* لوحة الشعار الزجاجية الخلفية */
+/* اللوحة الزجاجية الخلفية الشفافة المضيئة */
 .logo-glass-panel {
-    width: 85%;
-    height: 75%;
-    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+    width: 90%;
+    height: 80%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
+    border-radius: 24px;
     position: absolute;
-    top: 10px;
-    backdrop-filter: blur(5px);
+    top: 5px;
+    backdrop-filter: blur(8px);
     z-index: 1;
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
 }
 
-/* الشعار الرقمي المتحرك */
+/* هالة النيون المضيئة الدائرية خلف وحول الشعار */
+.logo-glow-ring {
+    position: absolute;
+    top: 20%;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(157, 78, 221, 0.2);
+    box-shadow: 0 0 40px rgba(157, 78, 221, 0.25), inset 0 0 30px rgba(0, 245, 212, 0.1);
+    z-index: 2;
+    animation: rotateRing 20s linear infinite;
+}
+
+/* الشعار المرتفع العائم */
 .logo-wrapper {
     position: absolute;
-    top: 25%;
-    z-index: 3;
+    top: 22%;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: floatLogo 4s ease-in-out infinite;
+    animation: floatLogo 3.5s ease-in-out infinite;
 }
 
-/* الأشكال المربّعة المستوحاة من شعار تحكم */
-.logo-icon {
-    width: 80px;
-    height: 80px;
+/* بناء شبكة المربعات لشعار تحكم بدقة */
+.logo-icon-grid {
+    width: 90px;
+    height: 90px;
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .pixel {
     position: absolute;
-    background: var(--secondary-neon);
-    border-radius: 4px;
-    box-shadow: 0 0 15px var(--secondary-neon);
+    border-radius: 3px;
 }
-.p1 { width: 25px; height: 25px; top: 0; left: 25px; background: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
-.p2 { width: 20px; height: 20px; top: 10px; left: 55px; opacity: 0.7; }
-.p3 { width: 30px; height: 30px; top: 30px; left: 10px; }
-.p4 { width: 25px; height: 25px; top: 40px; left: 45px; background: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
+
+/* مربعات البنفسجي */
+.px-purple-1 { width: 14px; height: 14px; top: 0; left: 38px; background: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
+.px-purple-2 { width: 10px; height: 10px; top: 12px; left: 60px; background: var(--primary-neon); opacity: 0.7; }
+.px-purple-3 { width: 8px; height: 8px; top: 30px; left: 68px; background: var(--primary-neon); opacity: 0.5; }
+.px-purple-4 { width: 10px; height: 10px; top: 48px; left: 60px; background: var(--primary-neon); opacity: 0.6; }
+
+/* مربعات السماوي والاتصال المائل */
+.px-cyan-1 { width: 22px; height: 22px; top: 22px; left: 16px; background: var(--secondary-neon); box-shadow: 0 0 20px var(--secondary-neon); }
+.px-cyan-2 { width: 18px; height: 18px; top: 38px; left: 34px; background: var(--secondary-neon); box-shadow: 0 0 15px var(--secondary-neon); }
+.px-cyan-3 { width: 12px; height: 12px; top: 26px; left: 42px; background: var(--secondary-neon); opacity: 0.8; }
+.px-cyan-4 { width: 10px; height: 10px; top: 56px; left: 22px; background: var(--secondary-neon); opacity: 0.5; }
 
 .logo-text-main {
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 2.8rem;
+    font-weight: 800;
     color: var(--primary-neon);
-    text-shadow: 0 0 20px var(--primary-neon);
+    text-shadow: 0 0 25px var(--primary-neon), 0 0 50px var(--primary-neon);
     letter-spacing: 2px;
 }
 
 .logo-text-sub {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--secondary-neon);
-    letter-spacing: 6px;
-    margin-top: 5px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px var(--secondary-neon);
+    letter-spacing: 7px;
+    margin-top: 4px;
+    text-shadow: 0 0 15px var(--secondary-neon);
 }
 
-/* منصة العرض السفلية الدائرية (Podium) */
+/* المنصة السفلية المستقبلية ثلاثية الطبقات والأبعاد */
 .podium-base {
-    width: 85%;
-    height: 60px;
-    background: #111122;
+    width: 82%;
+    height: 40px;
+    background: linear-gradient(180deg, #16162d 0%, #090914 100%);
     border-radius: 50%;
-    border: 3px solid #222244;
+    border-top: 3px solid #2d2d54;
+    border-bottom: 2px solid #0b0b18;
     box-shadow: 
-        inset 0 0 20px rgba(0,0,0,0.8),
-        0 0 30px var(--podium-glow);
+        0 10px 20px rgba(0,0,0,0.8),
+        inset 0 0 25px rgba(0,0,0,0.9),
+        0 0 40px var(--podium-glow);
     position: relative;
-    z-index: 2;
+    z-index: 3;
+    transform: rotateX(55deg);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s ease;
 }
 
-.podium-ring {
-    width: 85%;
-    height: 70%;
+.podium-inner-ring {
+    width: 88%;
+    height: 88%;
     border-radius: 50%;
-    border: 2px solid var(--secondary-neon);
-    box-shadow: 0 0 15px var(--secondary-neon);
+    border: 3px dashed var(--secondary-neon);
+    box-shadow: 0 0 20px var(--secondary-neon);
+    animation: rotateRing 15s linear infinite reverse;
+}
+
+.podium-core-glow {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background: var(--primary-neon);
+    border-radius: 50%;
+    filter: blur(15px);
+    opacity: 0.7;
 }
 
 /* شعاع الليزر الهولوغرافي العمودي */
 .hologram-beam {
     position: absolute;
-    bottom: 40px;
-    width: 70%;
-    height: 200px;
+    bottom: 20px;
+    width: 65%;
+    height: 240px;
     background: linear-gradient(to top, var(--podium-glow), transparent);
-    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
     z-index: 2;
-    opacity: 0.6;
+    opacity: 0.5;
     pointer-events: none;
     animation: pulseBeam 2s infinite alternate;
 }
 
 /* شريط التحميل السفلي */
 .loading-section {
-    width: 80%;
+    width: 85%;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .loading-text {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin-bottom: 8px;
-    opacity: 0.8;
+    opacity: 0.85;
     letter-spacing: 1px;
 }
 
 .progress-bar-container {
     width: 100%;
     height: 8px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .progress-bar-fill {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
-    box-shadow: 0 0 10px var(--secondary-neon);
+    box-shadow: 0 0 15px var(--secondary-neon);
     border-radius: 10px;
     transition: width 0.1s linear;
 }
 
 .progress-percentage {
-    font-size: 0.8rem;
-    margin-top: 5px;
-    opacity: 0.6;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    opacity: 0.7;
+    font-weight: bold;
 }
 
-/* الكي-فريمز للحركات التفاعلية الفخمة */
+/* طبقة الوميض الفخم والانتقال المضيء المفاجئ */
+.flash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease-out;
+}
+
+.flash-overlay.active {
+    opacity: 1;
+}
+
+/* حركات الأنميشن القياسية */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes floatLogo {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
+    50% { transform: translateY(-15px); }
     100% { transform: translateY(0px); }
 }
 
 @keyframes pulseBeam {
-    0% { opacity: 0.4; transform: scaleX(0.95); }
-    100% { opacity: 0.7; transform: scaleX(1.05); }
+    0% { opacity: 0.3; transform: scaleX(0.93); }
+    100% { opacity: 0.6; transform: scaleX(1.07); }
+}
+
+@keyframes rotateRing {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(36deg); }
 }
