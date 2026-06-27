@@ -1,26 +1,42 @@
-// تحديد العناصر البرمجية لشريط التحميل والنسبة المئوية
+// تحديد عناصر واجهة المستخدم والتحميل
 const progressBar = document.getElementById('progressBar');
 const progressPercent = document.getElementById('progressPercent');
 const statusText = document.getElementById('statusText');
+const flashOverlay = document.getElementById('flashOverlay');
 
 let progress = 0;
 
-// تشغيل عدّاد التحميل التلقائي بشكل عشوائي واقعي وفخم
+// تشغيل العداد التلقائي لثوانٍ معدودة
 const interval = setInterval(() => {
+    // زيادة عشوائية تصاعدية ذكية تعطي انطباعاً حقيقياً بالتحميل
     progress += Math.floor(Math.random() * 4) + 2; 
     
     if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
+        
         statusText.innerText = "اكتمل التحميل بنجاح";
         statusText.style.color = "var(--secondary-neon)";
+        
+        // تفعيل حركة الوميض الفخم والانتقال السينمائي
+        setTimeout(() => {
+            // تفعيل طبقة الوميض الأبيض المضيء
+            flashOverlay.classList.add('active');
+            
+            // محاكاة الانتقال التلقائي إلى صفحة تسجيل الدخول القادمة بعد نصف ثانية من الوميض
+            setTimeout(() => {
+                // هنا نقوم بتوجيه المستخدم برمجياً لصفحة تسجيل الدخول التي سنبنيها معاً
+                window.location.href = "login.html"; 
+            }, 400);
+            
+        }, 500); // الانتظار لنصف ثانية بعد اكتمال الـ 100% قبل إطلاق الوميض
     }
     
     progressBar.style.width = progress + '%';
     progressPercent.innerText = progress + '%';
-}, 120);
+}, 100); // سرعة عد مناسبة لتجربة مستخدم مريحة وفخمة
 
-// تفعيل ميزة التبديل بين الوضعين الداكن والفاتح بسلاسة عند الضغط على الزر
+// تفعيل ميزة تبديل الألوان (الداكن / الفاتح) بسلاسة
 const themeBtn = document.getElementById('themeBtn');
 themeBtn.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -32,4 +48,3 @@ themeBtn.addEventListener('click', () => {
         themeBtn.innerText = 'الوضع الداكن';
     }
 });
-
