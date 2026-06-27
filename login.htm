@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحكم - إدخال رقم الخطة</title>
+    <!-- ربط ملف التصميم الخاص بصفحة الخطة -->
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+    <!-- الشريط العلوي (Header) المطابق للصورة -->
+    <header class="main-header">
+        <div class="header-right">
+            <!-- شعار تحكم المصغر والنص المصاحب -->
+            <div class="header-logo-wrapper">
+                <div class="mini-logo">
+                    <div class="m-p1"></div>
+                    <div class="m-p2"></div>
+                </div>
+                <div class="logo-text-group">
+                    <span class="text-main">تحكم</span>
+                    <span class="text-sub">TAHAKOM</span>
+                </div>
+            </div>
+            <div class="header-title">الحركة الميدانية لقسم التشغيل CCTV</div>
+        </div>
+        
+        <div class="header-left">
+            <!-- مفتاح تبديل الوضع الداكن والفاتح الأنيق -->
+            <label class="switch-theme">
+                <input type="checkbox" id="themeToggleCheckbox">
+                <span class="slider"></span>
+            </label>
+            <!-- زر القائمة الجانبية -->
+            <button class="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- الحاوية الرئيسية للبطاقة الزجاجية -->
+    <main class="page-container">
+        <div class="plan-card">
+            <!-- الأيقونة العلوية (أيقونة اللوحة والمفكرة) -->
+            <div class="card-icon-badge">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    <polyline points="9 11 12 14 22 4"></polyline>
+                </svg>
+            </div>
+
+            <h2 class="card-title">ادخل رقم الخطة</h2>
+            <p class="card-subtitle">يرجى إدخال رقم الخطة للمتابعة</p>
+            
+            <!-- خط الزينة الصغير في المنتصف -->
+            <div class="deco-line"></div>
+
+            <!-- مربع إدخال رقم الخطة المصمم خصيصاً كالصورة -->
+            <div class="input-number-wrapper">
+                <input type="text" id="planNumberInput" maxlength="2" placeholder="" autocomplete="off" inputmode="numeric">
+                <!-- التسمية السفلية المقاطعة للإطار -->
+                <div class="input-label-bottom">
+                    <span class="line-left"></span>
+                    <span class="label-text">رقم الخطة</span>
+                    <span class="line-right"></span>
+                </div>
+            </div>
+
+            <!-- زر متابعة المتدرج مع السهم الدائري الجانبي -->
+            <button class="btn-submit" id="btnSubmitPlan">
+                <span class="btn-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+                <span class="btn-text">متابعة</span>
+            </button>
+
+            <!-- زر الرجوع الشفاف المحاط بحدود نيون -->
+            <button class="btn-back" id="btnGoBack">
+                <span class="back-text">رجوع</span>
+                <svg class="back-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+        </div>
+    </main>
+
+    <!-- ربط ملف التشغيل الخاص بصفحة الخطة -->
+    <script src="login.js"></script>
+</body>
+</html>
