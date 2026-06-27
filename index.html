@@ -1,197 +1,769 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CCTV System</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Cairo", sans-serif;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      background: #070A12;
-      color: white;
-      overflow: hidden;
-    }
+<title>CCTV Field Operations</title>
 
-    /* ===== شاشة التحميل ===== */
-    #splash {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, #1a1f3a, #070A12);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
+<link rel="stylesheet" href="style.css">
 
-    .logo {
-      font-size: 40px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #c084fc;
-      text-shadow: 0 0 20px #a855f7;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    .loading-box {
-      width: 250px;
-      height: 8px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 20px;
-    }
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    .loading-bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg,#a855f7,#22d3ee);
-      animation: load 3s forwards;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-    @keyframes load {
-      to { width: 100%; }
-    }
+<link rel="manifest" href="manifest.json">
 
-    /* ===== الصفحة الرئيسية ===== */
-    #app {
-      display: none;
-      height: 100vh;
-      padding: 20px;
-      background: radial-gradient(circle at top, #11162a, #070A12);
-    }
+<meta name="theme-color" content="#0b1320">
 
-    .card {
-      margin-top: 60px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 25px;
-      backdrop-filter: blur(10px);
-      text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 10px;
-      font-size: 22px;
-    }
-
-    .number {
-      font-size: 55px;
-      margin: 20px 0;
-      background: linear-gradient(45deg,#a855f7,#22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      text-align: center;
-      margin-top: 10px;
-      outline: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      background: linear-gradient(90deg,#a855f7,#22d3ee);
-      color: white;
-      font-weight: bold;
-    }
-
-    .back {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-  </style>
 </head>
 
 <body>
 
-<!-- شاشة التحميل -->
-<div id="splash">
-  <div class="logo">TAHAKOM</div>
-  <div>جاري التحميل...</div>
+<!-- شاشة البداية -->
 
-  <div class="loading-box">
-    <div class="loading-bar"></div>
-  </div>
+<div id="loadingScreen">
+
+<div class="logoContainer">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+<h1>
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</h1>
+
 </div>
+
+<div class="loadingBar">
+
+<div class="loadingFill"></div>
+
+</div>
+
+</div><!-- الصفحة الرئيسية -->
+
+<div id="homePage" class="container hidden">
+
+<header class="header">
+
+<div class="headerLogo">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+</div>
+
+<div class="systemName">
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</div>
+
+<button id="themeBtn1" class="themeBtn">
+
+🌙
+
+</button>
+
+</header>
+
+<div class="glass card fadeIn">
+
+<h2 class="title">
+
+بدء مهمة جديدة
+
+</h2>
+
+<div class="field">
+
+<label>
+
+رقم الخطة
+
+</label>
+
+<input
+
+id="planNumber"
+
+class="textBox"
+
+type="number"
+
+placeholder="أدخل رقم الخطة"
+
+autocomplete="off">
+
+</div>
+
+<div class="buttonsRow">
+
+<button
+
+id="nextPlan"
+
+class="actionBtn startBtn">
+
+التالي
+
+</button>
+
+</div>
+
+</div>
+
+</div><!-- صفحة الخطة -->
+
+<div id="routePage" class="container hidden">
+
+<header class="header">
+
+<div class="headerLogo">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+</div>
+
+<div class="systemName">
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</div>
+
+<button id="themeBtn2" class="themeBtn">
+
+🌙
+
+</button>
+
+</header>
+
+<div class="glass card fadeIn">
+
+<h2 class="title">
+
+بيانات الخطة
+
+</h2>
+
+<div class="field">
+
+<label>
+
+رقم الخطة
+
+</label>
+
+<input
+
+id="planNumberView"
+
+class="textBox"
+
+type="text"
+
+readonly>
+
+</div>
+
+<div class="field">
+
+<label>
+
+اسم المسار
+
+</label>
+
+<input
+
+id="routeName"
+
+class="textBox"
+
+type="text"
+
+readonly>
+
+</div>
+
+<div class="buttonsColumn">
+
+<button
+
+id="startMission"
+
+class="actionBtn startBtn">
+
+بدء المهمة
+
+</button>
+
+<button
+
+id="routeLogs"
+
+class="actionBtn">
+
+سجل المهام
+
+</button>
+
+<button
+
+id="adminMenu"
+
+class="actionBtn">
+
+لوحة الإدارة
+
+</button>
+
+<button
+
+id="backToPlans"
+
+class="actionBtn backBtn">
+
+⬅ رجوع
+
+</button>
+
+</div>
+
+</div>
+
+</div><!-- صفحة بيانات الموظف -->
+
+<div id="operatorPage" class="container hidden">
+
+<header class="header">
+
+<div class="headerLogo">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+</div>
+
+<div class="systemName">
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</div>
+
+<button id="themeBtn3" class="themeBtn">
+
+🌙
+
+</button>
+
+</header>
+
+<div class="glass card fadeIn">
+
+<h2 class="title">
+
+بيانات المشغل
+
+</h2>
+
+<div class="field">
+
+<label>
+
+رقم الموظف
+
+</label>
+
+<input
+
+id="employeeID"
+
+class="textBox"
+
+type="text"
+
+placeholder="رقم الموظف">
+
+</div>
+
+<div class="field">
+
+<label>
+
+اسم الموظف
+
+</label>
+
+<input
+
+id="employeeName"
+
+class="textBox"
+
+type="text"
+
+readonly>
+
+</div>
+
+<div class="buttonsColumn">
+
+<button
+
+id="goMission"
+
+class="actionBtn startBtn">
+
+دخول المهمة
+
+</button>
+
+<button
+
+id="backRoute"
+
+class="actionBtn backBtn">
+
+⬅ رجوع
+
+</button>
+
+</div>
+
+</div>
+
+</div><!-- صفحة المهمة -->
+
+<div id="missionPage" class="container hidden">
+
+<header class="header">
+
+<div class="headerLogo">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+</div>
+
+<div class="systemName">
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</div>
+
+<button id="themeBtn4" class="themeBtn">
+
+🌙
+
+</button>
+
+</header>
+
+<div class="glass card fadeIn">
+
+<div class="missionInfo">
+
+<div class="infoBox">
+
+<span>الوقت</span>
+
+<strong id="liveTime"></strong>
+
+</div>
+
+<div class="infoBox">
+
+<span>اليوم</span>
+
+<strong id="liveDay"></strong>
+
+</div>
+
+<div class="infoBox">
+
+<span>التاريخ</span>
+
+<strong id="liveDate"></strong>
+
+</div>
+
+<div class="infoBox">
+
+<span>الهجري</span>
+
+<strong id="hijriDate"></strong>
+
+</div>
+
+<div class="infoBox">
+
+<span>السرعة</span>
+
+<strong>
+
+<span id="vehicleSpeed">0</span>
+
+كم/س
+
+</strong>
+
+</div>
+
+</div>
+
+<div class="tableWrapper">
+
+<table id="missionTable">
+
+<thead>
+
+<tr>
+
+<th>رمز الموقع</th>
+
+<th>الموقع</th>
+
+<th>GPS</th>
+
+<th>التخزين</th>
+
+<th>XML</th>
+
+<th>الحالة</th>
+
+<th>بداية المجلد</th>
+
+<th>نهاية المجلد</th>
+
+<th>الساعات</th>
+
+<th>الصورة</th>
+
+<th>الملاحظات</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="buttonsRow">
+
+<button
+
+id="finishMission"
+
+class="actionBtn finishBtn">
+
+اعتماد المهمة
+
+</button>
+
+</div>
+
+</div>
+
+</div><!-- صفحة السجل -->
+
+<div id="logsPage" class="container hidden">
+
+<header class="header">
+
+<div class="headerLogo">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+</div>
+
+<div class="systemName">
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</div>
+
+<button id="themeBtn5" class="themeBtn">
+
+🌙
+
+</button>
+
+</header>
+
+<div class="glass card fadeIn">
+
+<h2 class="title">
+
+سجل المهام
+
+</h2>
+
+<div id="routeLogsContainer" class="logsContainer">
+
+</div>
+
+<div class="buttonsRow">
+
+<button
+
+id="backMission"
+
+class="actionBtn backBtn">
+
+⬅ رجوع
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- صفحة الإدارة -->
+
+<div id="adminPage" class="container hidden">
+
+<header class="header">
+
+<div class="headerLogo">
+
+<img src="assets/logo/logo.png" alt="Logo">
+
+</div>
+
+<div class="systemName">
+
+إدارة أنظمة المراقبة الأمنية
+
+<br>
+
+قسم التشغيل CCTV
+
+</div>
+
+<button id="themeBtn6" class="themeBtn">
+
+🌙
+
+</button>
+
+</header>
+
+<div class="glass card fadeIn">
+
+<h2 class="title">
+
+لوحة الإدارة
+
+</h2>
+
+<div class="dashboardGrid">
+
+<div class="dashboardCard">
+
+<span>عدد المهام</span>
+
+<strong id="todayMissions">0</strong>
+
+</div>
+
+<div class="dashboardCard">
+
+<span>المهام المكتملة</span>
+
+<strong id="completedMissions">0</strong>
+
+</div>
+
+<div class="dashboardCard">
+
+<span>الأعطال</span>
+
+<strong id="faultCount">0</strong>
+
+</div>
+
+<div class="dashboardCard">
+
+<span>المخالفات</span>
+
+<strong id="violationsCount">0</strong>
+
+</div>
+
+</div>
+
+<div class="tableWrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>الموقع</th>
+
+<th>المسار</th>
+
+<th>الملاحظات</th>
+
+<th>التاريخ</th>
+
+<th>الحالة</th>
+
+</tr>
+
+</thead>
+
+<tbody id="faultTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="buttonsRow">
+
+<button
+
+id="backAdmin"
+
+class="actionBtn backBtn">
+
+⬅ رجوع
+
+</button>
+
+</div>
+
+</div>
+
+</div><!-- نافذة الإعلانات -->
+
+<div id="announcementPopup" class="popup hidden">
+
+<div class="popupCard">
+
+<h3>
+
+إعلان
+
+</h3>
+
+<p id="announcementBody">
+
+</p>
+
+<button
+
+id="acceptAnnouncement"
+
+class="actionBtn">
+
+تم
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- قائمة التصدير -->
+
+<div id="exportMenu" class="exportMenu">
+
+<button id="exportMission">
+
+تصدير
+
+</button>
+
+<button onclick="exportMissionPDF()">
+
+PDF
+
+</button>
+
+<button onclick="exportMissionLink()">
+
+نسخ الرابط
+
+</button>
+
+<button onclick="exportMissionMail()">
+
+البريد
+
+</button>
+
+<button onclick="exportMissionWhatsapp()">
+
+واتساب
+
+</button>
+
+</div>
+
+
+<!-- ملفات البيانات -->
+
+<script src="data/plans.js"></script>
+
+<script src="data/employees.js"></script>
+
+<script src="data/users.js"></script>
+
+<script src="data/references.js"></script>
+
+<script src="data/settings.js"></script>
+
+<script src="data/announcements.js"></script>
+
 
 <!-- التطبيق -->
-<div id="app">
 
-  <!-- الصفحة الرئيسية -->
-  <div id="home">
-    <div class="card">
-      <h1>مرحباً بك</h1>
-      <p>في نظام الحركة الميدانية CCTV</p>
-
-      <div class="number">01</div>
-
-      <input type="number" id="planNumber" placeholder="ادخل رقم الخطة">
-
-      <button onclick="openPlan()">متابعة</button>
-    </div>
-  </div>
-
-  <!-- صفحة الخطة -->
-  <div id="planPage" style="display:none;">
-    <div class="card">
-      <h1 id="title">الخطة</h1>
-      <button class="back" onclick="backHome()">رجوع</button>
-    </div>
-  </div>
-
-</div>
-
-<script>
-  // تشغيل شاشة التحميل ثم فتح التطبيق
-  setTimeout(() => {
-    document.getElementById("splash").style.display = "none";
-    document.getElementById("app").style.display = "block";
-  }, 3000);
-
-  const plans = {
-    1: { name: "مسار 1" },
-    2: { name: "مسار 2" }
-  };
-
-  function openPlan() {
-    const val = document.getElementById("planNumber").value;
-
-    if (plans[val]) {
-      document.getElementById("home").style.display = "none";
-      document.getElementById("planPage").style.display = "block";
-
-      document.getElementById("title").innerText =
-        "الخطة رقم " + val + " - " + plans[val].name;
-    } else {
-      alert("رقم الخطة غير موجود");
-    }
-  }
-
-  function backHome() {
-    document.getElementById("home").style.display = "block";
-    document.getElementById("planPage").style.display = "none";
-  }
-</script>
+<script src="app.js"></script>
 
 </body>
+
 </html>
