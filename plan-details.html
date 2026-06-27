@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحكم - تفاصيل المسار</title>
+    <!-- ربط ملف التصميم الخاص بصفحة تفاصيل المسار -->
+    <link rel="stylesheet" href="plan-details.css">
+</head>
+<body>
+
+    <!-- الشريط العلوي الثابت والمطابق للنظام -->
+    <header class="main-header">
+        <div class="header-right">
+            <div class="header-logo-wrapper">
+                <div class="mini-logo">
+                    <div class="m-p1"></div>
+                    <div class="m-p2"></div>
+                </div>
+                <div class="logo-text-group">
+                    <span class="text-main">تحكم</span>
+                    <span class="text-sub">TAHAKOM</span>
+                </div>
+            </div>
+            <div class="header-title">الحركة الميدانية لقسم التشغيل CCTV</div>
+        </div>
+        
+        <div class="header-left">
+            <label class="switch-theme">
+                <input type="checkbox" id="themeToggleCheckbox">
+                <span class="slider"></span>
+            </label>
+            <button class="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- حاوية العرض الرئيسية للبطاقة الزجاجية -->
+    <main class="page-container">
+        <div class="route-card">
+            <!-- أيقونة التأكيد العلوية الخضراء (تم إدخال رقم الخطة بنجاح) -->
+            <div class="success-badge-wrapper">
+                <div class="card-icon-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                </div>
+                <div class="success-text">
+                    <span>تم إدخال رقم الخطة بنجاح</span>
+                    <span class="check-icon">✓</span>
+                </div>
+            </div>
+
+            <!-- عرض رقم الخطة بشكل كبير -->
+            <div class="plan-number-display">
+                <div class="decor-arrow-left">✦</div>
+                <span class="label-top">رقم الخطة</span>
+                <h1 id="displayPlanNumber">00</h1>
+                <div class="decor-arrow-right">✦</div>
+            </div>
+
+            <!-- منقطة اسم المسار التابع للخطة محاط بأيقونات الموقع -->
+            <div class="route-name-section">
+                <p class="route-label">اسم المسار التابع للخطة</p>
+                <div class="route-title-wrapper">
+                    <span class="location-icon">📍</span>
+                    <h2 id="displayRouteName">جاري تحميل المسار...</h2>
+                    <span class="location-icon">📍</span>
+                </div>
+            </div>
+
+            <!-- أزرار الخيارات الرئيسية للمسار المحددة بطلبك وصورتك -->
+            <div class="options-actions-group">
+                
+                <!-- 1. زر بدء المهمة الملون والمتدرج -->
+                <button class="action-btn btn-start" id="btnStartMission">
+                    <div class="btn-action-content">
+                        <span class="action-title">بدء المهمة</span>
+                        <span class="action-desc">الانتقال إلى تنفيذ خطة العمل</span>
+                    </div>
+                    <div class="action-icon-circle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                </button>
+
+                <!-- 2. زر سجلات المسار السابقة الشفاف المحاط بحدود نيون -->
+                <button class="action-btn btn-records" id="btnViewRecords">
+                    <div class="btn-action-content">
+                        <span class="action-title">سجلات المسار السابقة</span>
+                        <span class="action-desc">عرض جميع السجلات والمهمات السابقة لهذا المسار</span>
+                    </div>
+                    <div class="action-icon-circle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                </button>
+
+                <!-- 3. زر الرجوع المطلوب أسفل الأزرار -->
+                <button class="action-btn btn-return" id="btnReturnBack">
+                    <div class="btn-action-content">
+                        <span class="action-title">رجوع</span>
+                        <span class="action-desc">العودة لتعديل رقم الخطة</span>
+                    </div>
+                    <div class="action-icon-circle">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ربط ملف التشغيل والربط الذكي للمسارات -->
+    <script src="plan-details.js"></script>
+</body>
+</html>
