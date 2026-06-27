@@ -1,0 +1,320 @@
+/* تعريف المتغيرات والألوان للوضعين الداكن والفاتح */
+:root {
+    --bg-color: #03030b;
+    --card-bg: rgba(10, 10, 26, 0.65);
+    --text-color: #ffffff;
+    --primary-neon: #a855f7;
+    --secondary-neon: #06b6d4;
+    --border-color: rgba(6, 182, 212, 0.2);
+    --header-bg: rgba(5, 5, 15, 0.8);
+    --input-bg: rgba(0, 0, 0, 0.3);
+    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] {
+    --bg-color: #f4f6fc;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --text-color: #1e293b;
+    --primary-neon: #7c3aed;
+    --secondary-neon: #0891b2;
+    --border-color: rgba(8, 145, 178, 0.25);
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --input-bg: rgba(255, 255, 255, 0.5);
+    --card-shadow: 0 15px 35px rgba(145, 158, 171, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* --- الهيدر العلوي --- */
+.main-header {
+    width: 100%;
+    padding: 15px 4%;
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.header-right, .header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* شعار تحكم المصغر */
+.header-logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mini-logo {
+    width: 32px;
+    height: 32px;
+    position: relative;
+}
+
+.m-p1 { width: 12px; height: 12px; top: 2px; left: 10px; position: absolute; background: var(--primary-neon); border-radius: 2px; box-shadow: 0 0 8px var(--primary-neon); }
+.m-p2 { width: 14px; height: 14px; top: 12px; left: 2px; position: absolute; background: var(--secondary-neon); border-radius: 2px; box-shadow: 0 0 8px var(--secondary-neon); }
+
+.logo-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-text-group .text-main { font-weight: 800; font-size: 1.1rem; color: var(--primary-neon); line-height: 1; }
+.logo-text-group .text-sub { font-size: 0.55rem; letter-spacing: 2px; color: var(--secondary-neon); font-weight: bold; }
+
+.header-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+/* زر القائمة الجانبية المكون من 3 أسطر */
+.menu-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.menu-btn span {
+    width: 18px;
+    height: 2px;
+    background: var(--text-color);
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+/* مفتاح المظهر الذكي (Switch) */
+.switch-theme {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch-theme input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, #7c3aed, #0891b2);
+    border-radius: 34px;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background: linear-gradient(90deg, #1e1b4b, #312e81);
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* --- الحاوية الرئيسية والبطاقة --- */
+.page-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+}
+
+.plan-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 35px 30px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    box-shadow: var(--card-shadow);
+    position: relative;
+}
+
+/* الدائرة العلوية للأيقونة */
+.card-icon-badge {
+    width: 56px;
+    height: 56px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    color: var(--primary-neon);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+}
+
+.card-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; color: var(--secondary-neon); }
+.card-subtitle { font-size: 0.85rem; opacity: 0.65; margin-bottom: 20px; }
+
+/* المعين الصغير في منتصف الزينة */
+.deco-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 0 auto 25px auto;
+    position: relative;
+}
+.deco-line::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 6px; height: 6px;
+    background: var(--primary-neon);
+}
+
+/* --- مربع إدخال الرقم الفريد --- */
+.input-number-wrapper {
+    width: 160px;
+    height: 110px;
+    margin: 0 auto 30px auto;
+    position: relative;
+}
+
+.input-number-wrapper input {
+    width: 100%;
+    height: 100%;
+    background: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    color: var(--primary-neon);
+    font-size: 3.2rem;
+    font-weight: 800;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+}
+
+.input-number-wrapper input:focus {
+    border-color: var(--primary-neon);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+}
+
+/* التسمية المقاطعة للإطار في الأسفل */
+.input-label-bottom {
+    position: absolute;
+    bottom: -10px;
+    left: 0; width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.input-label-bottom .label-text {
+    font-size: 0.75rem;
+    padding: 0 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    opacity: 0.7;
+    white-space: nowrap;
+    transition: background-color 0.4s;
+}
+
+.input-label-bottom .line-left, .input-label-bottom .line-right {
+    flex: 1;
+    height: 1px;
+    background: transparent;
+}
+
+/* --- الأزرار الأساسية --- */
+.btn-submit {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 15px;
+}
+
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45); }
+
+.btn-arrow {
+    position: absolute;
+    left: 6px; top: 5px;
+    width: 40px; height: 40px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* زر الرجوع المحاط بحدود نيون ناعمة */
+.btn-back {
+    width: 100%;
+    height: 44px;
+    border-radius: 22px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    border-color: var(--primary-neon);
+    background: rgba(168, 85, 247, 0.05);
+}
