@@ -1,769 +1,317 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحكم - شاشة الافتتاحية</title>
+    <style>
+        /* تعريف الألوان والمتغيرات للوضعين الداكن والفاتح */
+        :root {
+            --bg-color: #05050c;
+            --card-bg: rgba(10, 10, 25, 0.7);
+            --text-color: #ffffff;
+            --primary-neon: #a855f7;
+            --secondary-neon: #06b6d4;
+            --border-color: rgba(6, 182, 212, 0.2);
+            --podium-glow: rgba(168, 85, 247, 0.4);
+        }
 
-<meta charset="UTF-8">
+        [data-theme="light"] {
+            --bg-color: #f3f4f6;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-color: #1f2937;
+            --primary-neon: #7c3aed;
+            --secondary-neon: #0891b2;
+            --border-color: rgba(8, 145, 178, 0.3);
+            --podium-glow: rgba(124, 58, 237, 0.2);
+        }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<title>CCTV Field Operations</title>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+            position: relative;
+        }
 
-<link rel="stylesheet" href="style.css">
+        /* زر تحويل المظهر (داكن / فاتح) */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+        /* حاوية الشاشة الافتتاحية */
+        .splash-container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            padding: 20px;
+            animation: fadeIn 1.2s ease-out forwards;
+        }
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        /* لوحة الترحيب العلوية */
+        .welcome-panel {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+        .welcome-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
 
-<link rel="manifest" href="manifest.json">
+        .welcome-subtitle {
+            font-size: 0.95rem;
+            color: var(--secondary-neon);
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
 
-<meta name="theme-color" content="#0b1320">
+        .welcome-desc {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
 
+        /* منطقة الهولوغرام والشعار والمجسم السفلي */
+        .hologram-display {
+            width: 100%;
+            height: 380px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        /* لوحة الشعار الزجاجية الخلفية */
+        .logo-glass-panel {
+            width: 85%;
+            height: 75%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            position: absolute;
+            top: 10px;
+            backdrop-filter: blur(5px);
+            z-index: 1;
+        }
+
+        /* الشعار الرقمي المتحرك */
+        .logo-wrapper {
+            position: absolute;
+            top: 25%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: floatLogo 4s ease-in-out infinite;
+        }
+
+        /* الأشكال المربّعة المستوحاة من شعار تحكم */
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .pixel {
+            position: absolute;
+            background: var(--secondary-neon);
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--secondary-neon);
+        }
+        .p1 { width: 25px; height: 25px; top: 0; left: 25px; background: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
+        .p2 { width: 20px; height: 20px; top: 10px; left: 55px; opacity: 0.7; }
+        .p3 { width: 30px; height: 30px; top: 30px; left: 10px; }
+        .p4 { width: 25px; height: 25px; top: 40px; left: 45px; background: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
+
+        .logo-text-main {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-neon);
+            text-shadow: 0 0 20px var(--primary-neon);
+            letter-spacing: 2px;
+        }
+
+        .logo-text-sub {
+            font-size: 1.1rem;
+            color: var(--secondary-neon);
+            letter-spacing: 6px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--secondary-neon);
+        }
+
+        /* منصة العرض السفلية الدائرية (Podium) */
+        .podium-base {
+            width: 85%;
+            height: 60px;
+            background: #111122;
+            border-radius: 50%;
+            border: 3px solid #222244;
+            box-shadow: 
+                inset 0 0 20px rgba(0,0,0,0.8),
+                0 0 30px var(--podium-glow);
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .podium-ring {
+            width: 85%;
+            height: 70%;
+            border-radius: 50%;
+            border: 2px solid var(--secondary-neon);
+            box-shadow: 0 0 15px var(--secondary-neon);
+        }
+
+        /* شعاع الليزر الهولوغرافي العمودي */
+        .hologram-beam {
+            position: absolute;
+            bottom: 40px;
+            width: 70%;
+            height: 200px;
+            background: linear-gradient(to top, var(--podium-glow), transparent);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            z-index: 2;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: pulseBeam 2s infinite alternate;
+        }
+
+        /* شريط التحميل السفلي */
+        .loading-section {
+            width: 80%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .loading-text {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            box-shadow: 0 0 10px var(--secondary-neon);
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .progress-percentage {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            opacity: 0.6;
+        }
+
+        /* الكي-فريمز للحركات التفاعلية الفخمة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatLogo {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulseBeam {
+            0% { opacity: 0.4; transform: scaleX(0.95); }
+            100% { opacity: 0.7; transform: scaleX(1.05); }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- شاشة البداية -->
-
-<div id="loadingScreen">
-
-<div class="logoContainer">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-<h1>
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</h1>
-
-</div>
-
-<div class="loadingBar">
-
-<div class="loadingFill"></div>
-
-</div>
-
-</div><!-- الصفحة الرئيسية -->
-
-<div id="homePage" class="container hidden">
-
-<header class="header">
-
-<div class="headerLogo">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-</div>
-
-<div class="systemName">
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</div>
-
-<button id="themeBtn1" class="themeBtn">
-
-🌙
-
-</button>
-
-</header>
-
-<div class="glass card fadeIn">
-
-<h2 class="title">
-
-بدء مهمة جديدة
-
-</h2>
-
-<div class="field">
-
-<label>
-
-رقم الخطة
-
-</label>
-
-<input
-
-id="planNumber"
-
-class="textBox"
-
-type="number"
-
-placeholder="أدخل رقم الخطة"
-
-autocomplete="off">
-
-</div>
-
-<div class="buttonsRow">
-
-<button
-
-id="nextPlan"
-
-class="actionBtn startBtn">
-
-التالي
-
-</button>
-
-</div>
-
-</div>
-
-</div><!-- صفحة الخطة -->
-
-<div id="routePage" class="container hidden">
-
-<header class="header">
-
-<div class="headerLogo">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-</div>
-
-<div class="systemName">
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</div>
-
-<button id="themeBtn2" class="themeBtn">
-
-🌙
-
-</button>
-
-</header>
-
-<div class="glass card fadeIn">
-
-<h2 class="title">
-
-بيانات الخطة
-
-</h2>
-
-<div class="field">
-
-<label>
-
-رقم الخطة
-
-</label>
-
-<input
-
-id="planNumberView"
-
-class="textBox"
-
-type="text"
-
-readonly>
-
-</div>
-
-<div class="field">
-
-<label>
-
-اسم المسار
-
-</label>
-
-<input
-
-id="routeName"
-
-class="textBox"
-
-type="text"
-
-readonly>
-
-</div>
-
-<div class="buttonsColumn">
-
-<button
-
-id="startMission"
-
-class="actionBtn startBtn">
-
-بدء المهمة
-
-</button>
-
-<button
-
-id="routeLogs"
-
-class="actionBtn">
-
-سجل المهام
-
-</button>
-
-<button
-
-id="adminMenu"
-
-class="actionBtn">
-
-لوحة الإدارة
-
-</button>
-
-<button
-
-id="backToPlans"
-
-class="actionBtn backBtn">
-
-⬅ رجوع
-
-</button>
-
-</div>
-
-</div>
-
-</div><!-- صفحة بيانات الموظف -->
-
-<div id="operatorPage" class="container hidden">
-
-<header class="header">
-
-<div class="headerLogo">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-</div>
-
-<div class="systemName">
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</div>
-
-<button id="themeBtn3" class="themeBtn">
-
-🌙
-
-</button>
-
-</header>
-
-<div class="glass card fadeIn">
-
-<h2 class="title">
-
-بيانات المشغل
-
-</h2>
-
-<div class="field">
-
-<label>
-
-رقم الموظف
-
-</label>
-
-<input
-
-id="employeeID"
-
-class="textBox"
-
-type="text"
-
-placeholder="رقم الموظف">
-
-</div>
-
-<div class="field">
-
-<label>
-
-اسم الموظف
-
-</label>
-
-<input
-
-id="employeeName"
-
-class="textBox"
-
-type="text"
-
-readonly>
-
-</div>
-
-<div class="buttonsColumn">
-
-<button
-
-id="goMission"
-
-class="actionBtn startBtn">
-
-دخول المهمة
-
-</button>
-
-<button
-
-id="backRoute"
-
-class="actionBtn backBtn">
-
-⬅ رجوع
-
-</button>
-
-</div>
-
-</div>
-
-</div><!-- صفحة المهمة -->
-
-<div id="missionPage" class="container hidden">
-
-<header class="header">
-
-<div class="headerLogo">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-</div>
-
-<div class="systemName">
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</div>
-
-<button id="themeBtn4" class="themeBtn">
-
-🌙
-
-</button>
-
-</header>
-
-<div class="glass card fadeIn">
-
-<div class="missionInfo">
-
-<div class="infoBox">
-
-<span>الوقت</span>
-
-<strong id="liveTime"></strong>
-
-</div>
-
-<div class="infoBox">
-
-<span>اليوم</span>
-
-<strong id="liveDay"></strong>
-
-</div>
-
-<div class="infoBox">
-
-<span>التاريخ</span>
-
-<strong id="liveDate"></strong>
-
-</div>
-
-<div class="infoBox">
-
-<span>الهجري</span>
-
-<strong id="hijriDate"></strong>
-
-</div>
-
-<div class="infoBox">
-
-<span>السرعة</span>
-
-<strong>
-
-<span id="vehicleSpeed">0</span>
-
-كم/س
-
-</strong>
-
-</div>
-
-</div>
-
-<div class="tableWrapper">
-
-<table id="missionTable">
-
-<thead>
-
-<tr>
-
-<th>رمز الموقع</th>
-
-<th>الموقع</th>
-
-<th>GPS</th>
-
-<th>التخزين</th>
-
-<th>XML</th>
-
-<th>الحالة</th>
-
-<th>بداية المجلد</th>
-
-<th>نهاية المجلد</th>
-
-<th>الساعات</th>
-
-<th>الصورة</th>
-
-<th>الملاحظات</th>
-
-</tr>
-
-</thead>
-
-<tbody id="tableBody">
-
-</tbody>
-
-</table>
-
-</div>
-
-<div class="buttonsRow">
-
-<button
-
-id="finishMission"
-
-class="actionBtn finishBtn">
-
-اعتماد المهمة
-
-</button>
-
-</div>
-
-</div>
-
-</div><!-- صفحة السجل -->
-
-<div id="logsPage" class="container hidden">
-
-<header class="header">
-
-<div class="headerLogo">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-</div>
-
-<div class="systemName">
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</div>
-
-<button id="themeBtn5" class="themeBtn">
-
-🌙
-
-</button>
-
-</header>
-
-<div class="glass card fadeIn">
-
-<h2 class="title">
-
-سجل المهام
-
-</h2>
-
-<div id="routeLogsContainer" class="logsContainer">
-
-</div>
-
-<div class="buttonsRow">
-
-<button
-
-id="backMission"
-
-class="actionBtn backBtn">
-
-⬅ رجوع
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- صفحة الإدارة -->
-
-<div id="adminPage" class="container hidden">
-
-<header class="header">
-
-<div class="headerLogo">
-
-<img src="assets/logo/logo.png" alt="Logo">
-
-</div>
-
-<div class="systemName">
-
-إدارة أنظمة المراقبة الأمنية
-
-<br>
-
-قسم التشغيل CCTV
-
-</div>
-
-<button id="themeBtn6" class="themeBtn">
-
-🌙
-
-</button>
-
-</header>
-
-<div class="glass card fadeIn">
-
-<h2 class="title">
-
-لوحة الإدارة
-
-</h2>
-
-<div class="dashboardGrid">
-
-<div class="dashboardCard">
-
-<span>عدد المهام</span>
-
-<strong id="todayMissions">0</strong>
-
-</div>
-
-<div class="dashboardCard">
-
-<span>المهام المكتملة</span>
-
-<strong id="completedMissions">0</strong>
-
-</div>
-
-<div class="dashboardCard">
-
-<span>الأعطال</span>
-
-<strong id="faultCount">0</strong>
-
-</div>
-
-<div class="dashboardCard">
-
-<span>المخالفات</span>
-
-<strong id="violationsCount">0</strong>
-
-</div>
-
-</div>
-
-<div class="tableWrapper">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>الموقع</th>
-
-<th>المسار</th>
-
-<th>الملاحظات</th>
-
-<th>التاريخ</th>
-
-<th>الحالة</th>
-
-</tr>
-
-</thead>
-
-<tbody id="faultTable">
-
-</tbody>
-
-</table>
-
-</div>
-
-<div class="buttonsRow">
-
-<button
-
-id="backAdmin"
-
-class="actionBtn backBtn">
-
-⬅ رجوع
-
-</button>
-
-</div>
-
-</div>
-
-</div><!-- نافذة الإعلانات -->
-
-<div id="announcementPopup" class="popup hidden">
-
-<div class="popupCard">
-
-<h3>
-
-إعلان
-
-</h3>
-
-<p id="announcementBody">
-
-</p>
-
-<button
-
-id="acceptAnnouncement"
-
-class="actionBtn">
-
-تم
-
-</button>
-
-</div>
-
-</div>
-
-
-<!-- قائمة التصدير -->
-
-<div id="exportMenu" class="exportMenu">
-
-<button id="exportMission">
-
-تصدير
-
-</button>
-
-<button onclick="exportMissionPDF()">
-
-PDF
-
-</button>
-
-<button onclick="exportMissionLink()">
-
-نسخ الرابط
-
-</button>
-
-<button onclick="exportMissionMail()">
-
-البريد
-
-</button>
-
-<button onclick="exportMissionWhatsapp()">
-
-واتساب
-
-</button>
-
-</div>
-
-
-<!-- ملفات البيانات -->
-
-<script src="data/plans.js"></script>
-
-<script src="data/employees.js"></script>
-
-<script src="data/users.js"></script>
-
-<script src="data/references.js"></script>
-
-<script src="data/settings.js"></script>
-
-<script src="data/announcements.js"></script>
-
-
-<!-- التطبيق -->
-
-<script src="app.js"></script>
-
-</body>
-
-</html>
+    <!-- زر تبديل الوضع الداكن والفاتح -->
+    <button class="theme-toggle" id="themeBtn">الوضع الفاتح</button>
+
+    <div class="splash-container">
+        <!-- لوحة الترحيب العلوية -->
+        <div class="welcome-panel">
+            <h1 class="welcome-title">مرحباً بك</h1>
+            <p class="welcome-subtitle">في نظام الحركة الميدانية لقسم التشغيل CCTV</p>
+            <p class="welcome-desc">نظام متكامل لإدارة ومتابعة خطط الحركة الميدانية بدقة وسهولة واحترافية.</p>
+        </div>
+
+        <!-- منطقة الشعار المستقبلي والدعم السفلي -->
+        <div class="hologram-display">
+            <div class="logo-glass-panel"></div>
+            
+            <div class="logo-wrapper">
+                <div class="logo-icon">
+                    <div class="pixel p1"></div>
+                    <div class="pixel p2"></div>
+                    <div class="pixel p3"></div>
+                    <div class="pixel p4"></div>
+                </div>
+                <div class="logo-text-main">تحكم</div>
+                <div class="logo-text-sub">TAHAKOM</div>
+            </div>
+
+            <div class="hologram-beam"></div>
+
+            <div class="podium-base">
+                <div class="podium-ring"></div>
+            </div>
+        </div>
+
+        <!-- شريط التحميل التفاعلي -->
+        <div class="loading-section">
+            <div class="loading-text" id="statusText">جاري التحميل..</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-percentage" id="progressPercent">0%</div>
